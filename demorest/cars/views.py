@@ -3,7 +3,8 @@ from rest_framework import generics
 from cars.serializers import CarDetailSerializer, CarsListSerializer
 from cars.models import Car
 from cars.permissions import isOwnerOrReadOnly
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
 # Create your views here.
 
@@ -18,4 +19,5 @@ class CarsListView(generics.ListAPIView):
 class CarDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CarDetailSerializer
     queryset = Car.objects.all()
+    authentication_classes = (TokenAuthentication,)
     permissions_classes = (isOwnerOrReadOnly,)
